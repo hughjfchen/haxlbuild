@@ -49,9 +49,6 @@ Compared with Shake:
 -}
 
 {-# LANGUAGE OverloadedStrings #-}
-{-# LANGUAGE GeneralizedNewtypeDeriving #-}
-{-# LANGUAGE DeriveDataTypeable #-}
-{-# LANGUAGE RecordWildCards #-}
 {-# LANGUAGE StandaloneDeriving #-}
 {-# LANGUAGE GADTs #-}
 
@@ -79,7 +76,7 @@ module Haxl.Build
  - can detect multiple different needs for same file?
 -}
 
-import Haxl.Prelude
+import Haxl.Prelude hiding (andThen)
 import Prelude ()
 
 import Control.Exception hiding (throw)
@@ -172,7 +169,7 @@ readBuiltFile (File f) = unsafeLiftIO $ readFile f
 
 -- | forced sequencing in Haxl
 andThen :: Haxl () -> Haxl b -> Haxl b
-andThen a b = a >>= \_ -> b
+andThen a b = a >>= const b
 
 -- | Run a build system
 runBuild :: Int -> Build a -> IO a
@@ -181,7 +178,7 @@ runBuild verb doBuild = do
   runCmdState <- initDataSource
   bstate <- newBuildState verb
   env <- initEnv (stateSet runCmdState stateEmpty) bstate
-  runHaxl env $ doBuild
+  runHaxl env doBuild
 
 
 -- -----------------------------------------------------------------------------
@@ -202,7 +199,7 @@ instance Hashable target => Hashable (BuildFile target result) where
 buildFile :: FilePath -> Build () -> Haxl Fingerprint
 buildFile f doBuild = cachedComputation (BuildFile f) $ do
   e <- env id
-  let bs@BuildState{..} = userEnv e
+  let bs= userEnv e
   msg 1 $ printf "buildFile: checking dependencies of %s" f
   depsRef <- unsafeLiftIO $ newIORef []
   _ <- withEnv e { userEnv = bs { checkingDependencies = Just f, depsRef = depsRef } } doBuild

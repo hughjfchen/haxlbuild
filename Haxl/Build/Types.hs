@@ -36,7 +36,7 @@ newBuildState verb = do
     , verbose = verb
     , ..}
 
-type Haxl a = GenHaxl BuildState a
+type Haxl a = GenHaxl BuildState () a
 
 -- |
 -- The build system monad.  The two principle operations of 'Build'
@@ -45,7 +45,7 @@ type Haxl a = GenHaxl BuildState a
 -- used with the 'ApplicativeDo' GHC extension to autoatically
 -- parallelise 'do' expressions.
 --
-type Build a = GenHaxl BuildState a
+type Build a = GenHaxl BuildState () a
 
 msg :: Int -> String -> Build ()
 msg n str = do

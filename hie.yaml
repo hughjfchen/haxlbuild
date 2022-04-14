@@ -1,0 +1,10 @@
+cradle:
+  cabal:
+    - path: "./"
+      component: "lib:haxlbuild"
+
+    - path: "./haxlmake"
+      component: "exe:haxlmake"
+
+    - path: "./test"
+      component: "test:test"
