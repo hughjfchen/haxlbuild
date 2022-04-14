@@ -1,10 +1,10 @@
+[![GitHub CI](https://github.com/hughjfchen/upload-page-resource-perf-data/workflows/nix-ci/badge.svg)](https://github.com/hughjfchen/upload-page-resource-perf-data/actions)
+
 #+title: Readme
 #+author: Hugh Chen
 #+date: <2022-04-14 Thu>
 #+keywords: haskell haxl
 #+description: A build system based on haxl
-
-[![GitHub CI](https://github.com/hughjfchen/upload-page-resource-perf-data/workflows/nix-ci/badge.svg)](https://github.com/hughjfchen/upload-page-resource-perf-data/actions)
 
 * What is haxlmake
 This little program is a simple build system based on the haskell library, haxl.
